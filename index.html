@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Matt Attack Team</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(180deg, #f3f7ff 0%, #f5f6f8 45%, #eef3ff 100%);
+            color: #1d1d1f;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: #0f172a;
+            color: #fff;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .header-inner,
+        .footer-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 64px;
+        }
+
+        .footer-inner {
+            flex-direction: column;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .site-header .container,
+        .site-footer .container {
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .brand {
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+        }
+
+        .top-nav,
+        .footer-nav {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .top-nav a,
+        .footer-nav a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .top-nav a:hover,
+        .footer-nav a:hover {
+            color: #fff;
+        }
+
+        h1 {
+            margin-bottom: 1rem;
+        }
+
+        .panel {
+            background: #fff;
+            border: 1px solid #dbe3f1;
+            border-radius: 12px;
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+            padding: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .login-layout {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .login-layout .panel {
+            margin-bottom: 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 160px 1fr;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            align-items: center;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #bbb;
+            border-radius: 6px;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        button {
+            padding: 0.5rem 0.8rem;
+            border: 1px solid #0b57d0;
+            background: linear-gradient(135deg, #0b57d0, #1d4ed8);
+            color: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button.secondary {
+            background: #fff;
+            color: #0b57d0;
+        }
+
+        .status {
+            margin-top: 0.75rem;
+            font-weight: 600;
+        }
+
+        .hint {
+            margin: 0.75rem 0;
+            color: #4b5563;
+        }
+
+        pre {
+            background: #111827;
+            color: #f8fafc;
+            padding: 0.75rem;
+            border-radius: 6px;
+            overflow: auto;
+            margin-top: 0.75rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0.75rem;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        th,
+        td {
+            border: 1px solid #d1d5db;
+            padding: 0.5rem;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background: #eef2ff;
+        }
+
+        .player-grid th {
+            background: linear-gradient(180deg, #dbe8ff, #eff4ff);
+        }
+
+        .player-grid tbody tr:nth-child(even) {
+            background: #f8fbff;
+        }
+
+        .player-grid td:nth-child(2),
+        .player-grid td:nth-child(3),
+        .player-grid td:nth-child(4),
+        .player-grid td:nth-child(5) {
+            font-weight: 600;
+        }
+
+        .site-footer {
+            margin-top: 2rem;
+            background: #0f172a;
+            color: #cbd5e1;
+            border-top: 1px solid #1e293b;
+        }
+
+        @media (max-width: 700px) {
+            .login-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="header-inner container">
+            <div class="brand">Matt Attack Team</div>
+            <nav class="top-nav">
+                <a href="#home">Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h1 id="home">Matt Attack Team</h1>
+
+        <div class="login-layout" id="loginLayout">
+            <section class="panel" id="adminLoginSection">
+                <h2>Admin Login</h2>
+                <div class="grid">
+                    <label for="adminUsername">Username</label>
+                    <input id="adminUsername" type="text" autocomplete="username" placeholder="admin" />
+                    <label for="adminPassword">Password</label>
+                    <input id="adminPassword" type="password" autocomplete="current-password" />
+                </div>
+                <div class="actions">
+                    <button id="adminLoginBtn" type="button">Admin Login</button>
+                </div>
+            </section>
+
+            <section class="panel" id="userLoginSection">
+                <h2>User Login</h2>
+                <div class="grid">
+                    <label for="userUsername">Username</label>
+                    <input id="userUsername" type="text" autocomplete="username" placeholder="user" />
+                    <label for="userPassword">Password</label>
+                    <input id="userPassword" type="password" autocomplete="current-password" />
+                </div>
+                <div class="actions">
+                    <button id="userLoginBtn" type="button">User Login</button>
+                </div>
+            </section>
+        </div>
+
+        <section class="panel" id="authPanel" hidden>
+            <h2 id="authHeading">Authentication</h2>
+            <p id="authStatus" class="status"></p>
+            <pre id="authOutput">Authentication responses will appear here.</pre>
+            <div class="actions">
+                <button id="logoutBtn" type="button" class="secondary">Logout</button>
+            </div>
+        </section>
+
+        <section class="panel" id="googleSheetsSection" hidden>
+            <h2>Google Sheets (Direct Browser Access)</h2>
+            <div class="grid">
+                <label for="googleApiKey">Google API key</label>
+                <input id="googleApiKey" type="password" autocomplete="off" placeholder="AIza..." />
+
+                <label for="spreadsheetId">Spreadsheet ID</label>
+                <input id="spreadsheetId" type="text" placeholder="your-spreadsheet-id" />
+
+                <label for="sheetSection">Section</label>
+                <select id="sheetSection">
+                    <option value="players">players (Players!A1:Z)</option>
+                    <option value="matches">matches (Matches!A1:Z)</option>
+                    <option value="standings">standings (Standings!A1:Z)</option>
+                </select>
+            </div>
+            <div class="actions">
+                <button id="authorizeGoogleBtn" type="button">Authorize Google Sheets</button>
+                <button id="signoutGoogleBtn" type="button" class="secondary">Sign Out Google</button>
+                <button id="loadSheetBtn" type="button">Load Sheet Data</button>
+            </div>
+            <p class="hint">The sheet/range must be readable from browser (public or API key authorized).</p>
+            <pre id="sheetsOutput">Google Sheets response will appear here.</pre>
+            <div id="sheetTableWrap"></div>
+        </section>
+
+        <section class="panel" id="playerGridSection" hidden>
+            <h2>Player Grid</h2>
+            <p class="hint">Load and view players with key traits like mentality, net play, pressure handling, overall,
+                and best pairing.</p>
+            <div class="actions">
+                <button id="loadPlayersBtn" type="button">Load Player Grid</button>
+            </div>
+            <pre id="playerOutput">Player grid status will appear here.</pre>
+            <div id="playerGridWrap"></div>
+        </section>
+
+        <script>
+            const spreadsheetUrl = "https://docs.google.com/spreadsheets/d/17zv0yb8rrri3yW9I9jbheiwQa2hGunzuw4_pWoS8CGU/edit?usp=sharing";
+            const defaultSpreadsheetId = spreadsheetUrl.match(/\/spreadsheets\/d\/([^/]+)/)?.[1] || "";
+            const sectionToRange = {
+                players: "Players!A1:Z",
+                matches: "Matches!A1:Z",
+                standings: "Standings!A1:Z"
+            };
+            const googleClientId = "26208903021-2v3vmbfuc26nsrj0fs9p57g4891ulha8.apps.googleusercontent.com";
+            const googleDiscoveryDoc = "https://sheets.googleapis.com/$discovery/rest?version=v4";
+            const googleScopes = "https://www.googleapis.com/auth/spreadsheets.readonly";
+
+            const adminUsernameInput = document.getElementById("adminUsername");
+            const adminPasswordInput = document.getElementById("adminPassword");
+            const userUsernameInput = document.getElementById("userUsername");
+            const userPasswordInput = document.getElementById("userPassword");
+
+            const adminLoginBtn = document.getElementById("adminLoginBtn");
+            const userLoginBtn = document.getElementById("userLoginBtn");
+            const logoutBtn = document.getElementById("logoutBtn");
+            const loadSheetBtn = document.getElementById("loadSheetBtn");
+            const loadPlayersBtn = document.getElementById("loadPlayersBtn");
+            const authorizeGoogleBtn = document.getElementById("authorizeGoogleBtn");
+            const signoutGoogleBtn = document.getElementById("signoutGoogleBtn");
+
+            const authStatus = document.getElementById("authStatus");
+            const authOutput = document.getElementById("authOutput");
+            const authHeading = document.getElementById("authHeading");
+            const authPanel = document.getElementById("authPanel");
+            const loginLayout = document.getElementById("loginLayout");
+            const adminLoginSection = document.getElementById("adminLoginSection");
+            const userLoginSection = document.getElementById("userLoginSection");
+            const googleSheetsSection = document.getElementById("googleSheetsSection");
+            const playerGridSection = document.getElementById("playerGridSection");
+            const sheetsOutput = document.getElementById("sheetsOutput");
+            const sheetTableWrap = document.getElementById("sheetTableWrap");
+            const playerOutput = document.getElementById("playerOutput");
+            const playerGridWrap = document.getElementById("playerGridWrap");
+
+            const googleApiKeyInput = document.getElementById("googleApiKey");
+            const spreadsheetIdInput = document.getElementById("spreadsheetId");
+            const sheetSectionInput = document.getElementById("sheetSection");
+            let currentUser = null;
+            let googleTokenClient = null;
+            let googleApiReady = false;
+            let googleIdentityReady = false;
+
+            spreadsheetIdInput.value = defaultSpreadsheetId;
+            authorizeGoogleBtn.hidden = true;
+            signoutGoogleBtn.hidden = true;
+            authOutput.style.display = "none";
+
+            function getToken() {
+                return localStorage.getItem("tp_static_token");
+            }
+
+            function setToken(token) {
+                if (token) {
+                    localStorage.setItem("tp_static_token", token);
+                } else {
+                    localStorage.removeItem("tp_static_token");
+                    currentUser = null;
+                }
+            }
+
+            function isAdmin(user) {
+                return user?.role === "admin";
+            }
+
+            function setAuthenticatedView(user) {
+                const admin = isAdmin(user);
+                currentUser = user;
+                authPanel.hidden = false;
+                loginLayout.hidden = true;
+                adminLoginSection.hidden = true;
+                userLoginSection.hidden = true;
+                authHeading.textContent = admin ? "Admin session" : "User session";
+                authStatus.textContent = admin ? "Authenticated as admin" : "Authenticated as user";
+                googleSheetsSection.hidden = !admin;
+                playerGridSection.hidden = admin;
+                updateGoogleButtons();
+            }
+
+            function resetAuthenticatedView() {
+                currentUser = null;
+                loginLayout.hidden = false;
+                adminLoginSection.hidden = false;
+                userLoginSection.hidden = false;
+                authPanel.hidden = true;
+                googleSheetsSection.hidden = true;
+                playerGridSection.hidden = true;
+                updateGoogleButtons();
+            }
+
+            async function refreshAuthState() {
+                const token = getToken();
+                if (!token) {
+                    resetAuthenticatedView();
+                    return;
+                }
+
+                const role = token === "admin" ? "admin" : "user";
+                setAuthenticatedView({ role });
+            }
+
+            function authenticate(username, password, role) {
+                const validCredentials = role === "admin"
+                    ? username === "admin" && password === "admin123"
+                    : username === "user" && password === "user123";
+
+                if (!validCredentials) {
+                    throw new Error(`Login failed for ${username || role}.`);
+                }
+
+                setToken(role);
+                setAuthenticatedView({ role });
+                showResult(authOutput, "Login successful", `${role === "admin" ? "Admin" : "User"} login successful.`);
+            }
+
+            adminLoginBtn.addEventListener("click", () => {
+                try {
+                    authenticate(adminUsernameInput.value.trim(), adminPasswordInput.value.trim(), "admin");
+                } catch (error) {
+                    showError(authOutput, "Login failed", error);
+                }
+            });
+
+            userLoginBtn.addEventListener("click", () => {
+                try {
+                    authenticate(userUsernameInput.value.trim(), userPasswordInput.value.trim(), "user");
+                } catch (error) {
+                    showError(authOutput, "Login failed", error);
+                }
+            });
+
+            logoutBtn.addEventListener("click", () => {
+                setToken(null);
+                resetAuthenticatedView();
+                authOutput.textContent = "Logged out.";
+            });
+            
+            function showResult(target, title, data) {
+                target.textContent = data === undefined ? `${title}` : `${title}\n\n${typeof data === "string" ? data : JSON.stringify(data, null, 2)}`;
+                target.style.display = "block";
+            }
+
+            function showError(target, title, error) {
+                target.textContent = error === undefined ? `${title}` : `${title}\n\n${error.message}`;
+                target.style.display = "block";
+            }
+
+            // Refresh authentication state on page load
+            refreshAuthState();
+
+            function gapiLoaded() {
+                gapi.load("client", initializeGoogleApiClient);
+            }
+
+            async function initializeGoogleApiClient() {
+                const options = { discoveryDocs: [googleDiscoveryDoc] };
+                const apiKey = googleApiKeyInput.value.trim();
+                if (apiKey) {
+                    options.apiKey = apiKey;
+                }
+                await gapi.client.init(options);
+                googleApiReady = true;
+                updateGoogleButtons();
+            }
+
+            function gisLoaded() {
+                googleTokenClient = google.accounts.oauth2.initTokenClient({
+                    client_id: googleClientId,
+                    scope: googleScopes,
+                    callback: ""
+                });
+                googleIdentityReady = true;
+                updateGoogleButtons();
+            }
+
+            function updateGoogleButtons() {
+                const admin = !googleSheetsSection.hidden;
+                authorizeGoogleBtn.hidden = !admin || !googleApiReady || !googleIdentityReady;
+                signoutGoogleBtn.hidden = !admin || !hasGoogleToken();
+            }
+
+            function hasGoogleToken() {
+                return typeof gapi !== "undefined" && Boolean(gapi.client?.getToken?.());
+            }
+
+            function renderSheetTable(values) {
+                sheetTableWrap.innerHTML = "";
+                if (!values.length) {
+                    sheetTableWrap.textContent = "No rows returned.";
+                    return;
+                }
+
+                const table = document.createElement("table");
+                values.forEach((row, rowIndex) => {
+                    const tableRow = document.createElement("tr");
+                    row.forEach(cell => {
+                        const cellElement = document.createElement(rowIndex === 0 ? "th" : "td");
+                        cellElement.textContent = String(cell ?? "");
+                        tableRow.appendChild(cellElement);
+                    });
+                    table.appendChild(tableRow);
+                });
+                sheetTableWrap.appendChild(table);
+            }
+
+            function renderPlayerGrid(values) {
+                playerGridWrap.innerHTML = "";
+                if (!values.length) {
+                    playerGridWrap.textContent = "No player rows returned.";
+                    return;
+                }
+
+                const table = document.createElement("table");
+                table.className = "player-grid";
+                values.forEach((row, rowIndex) => {
+                    const tableRow = document.createElement("tr");
+                    row.forEach(cell => {
+                        const cellElement = document.createElement(rowIndex === 0 ? "th" : "td");
+                        cellElement.textContent = String(cell ?? "");
+                        tableRow.appendChild(cellElement);
+                    });
+                    table.appendChild(tableRow);
+                });
+                playerGridWrap.appendChild(table);
+            }
+
+            async function readSheetData(apiKey, spreadsheetId, range) {
+                if (hasGoogleToken()) {
+                    const response = await gapi.client.sheets.spreadsheets.values.get({
+                        spreadsheetId,
+                        range
+                    });
+                    return response.result;
+                }
+
+                if (!apiKey) {
+                    throw new Error("Authorize Google Sheets or enter a Google API key.");
+                }
+
+                const url = `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(spreadsheetId)}/values/${encodeURIComponent(range)}?key=${encodeURIComponent(apiKey)}`;
+                const response = await fetch(url);
+                let payload;
+
+                try {
+                    payload = await response.json();
+                } catch {
+                    payload = { error: { message: "Google Sheets returned an invalid response." } };
+                }
+
+                if (!response.ok) {
+                    throw new Error(payload.error?.message || JSON.stringify(payload, null, 2));
+                }
+
+                return payload;
+            }
+
+
+
+            authorizeGoogleBtn.addEventListener("click", () => {
+                googleTokenClient.callback = async response => {
+                    if (response.error !== undefined) {
+                        showError(sheetsOutput, "Google authorization failed", response);
+                        return;
+                    }
+
+                    updateGoogleButtons();
+                    sheetsOutput.textContent = "Google Sheets authorized. Select a section and load the data.";
+                };
+
+                const prompt = gapi.client.getToken() === null ? "consent" : "";
+                googleTokenClient.requestAccessToken({ prompt });
+            });
+
+            signoutGoogleBtn.addEventListener("click", () => {
+                const token = gapi.client.getToken();
+                if (token) {
+                    google.accounts.oauth2.revoke(token.access_token);
+                    gapi.client.setToken("");
+                }
+                updateGoogleButtons();
+                sheetsOutput.textContent = "Google Sheets authorization cleared.";
+            });
+
+            loadSheetBtn.addEventListener("click", async () => {
+                const apiKey = googleApiKeyInput.value.trim();
+                const spreadsheetId = spreadsheetIdInput.value.trim();
+                const section = sheetSectionInput.value;
+                const range = sectionToRange[section];
+
+                if (!spreadsheetId || !range || (!apiKey && !hasGoogleToken())) {
+                    sheetsOutput.textContent = "Authorize Google Sheets or enter a Google API key and spreadsheet ID.";
+                    return;
+                }
+
+                try {
+                    const payload = await readSheetData(apiKey, spreadsheetId, range);
+                    showResult(sheetsOutput, `Google Sheets ${section}`, payload);
+                    renderSheetTable(payload.values || []);
+                } catch (error) {
+                    showError(sheetsOutput, `Google Sheets ${section} failed`, error);
+                    sheetTableWrap.innerHTML = "";
+                }
+            });
+
+            loadPlayersBtn.addEventListener("click", async () => {
+                const apiKey = googleApiKeyInput.value.trim();
+                const spreadsheetId = spreadsheetIdInput.value.trim();
+                const range = sectionToRange.players;
+
+                if (!spreadsheetId || (!apiKey && !hasGoogleToken())) {
+                    playerOutput.textContent = "Authorize Google Sheets or enter a Google API key and spreadsheet ID.";
+                    return;
+                }
+
+                try {
+                    const payload = await readSheetData(apiKey, spreadsheetId, range);
+                    showResult(playerOutput, "Player Grid Loaded", {
+                        range: payload.range,
+                        rows: (payload.values || []).length
+                    });
+                    renderPlayerGrid(payload.values || []);
+                } catch (error) {
+                    showError(playerOutput, "Player Grid load failed", error);
+                    playerGridWrap.innerHTML = "";
+                }
+            });
+
+            refreshAuthState();
+
+        </script>
+        <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
+        <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner container">
+            <span>© <script>document.write(new Date().getFullYear());</script> Matt Attack Team</span>
+        </div>
+    </footer>
+
+</body>
+
+</html>
